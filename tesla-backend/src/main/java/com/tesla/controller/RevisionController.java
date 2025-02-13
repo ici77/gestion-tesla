@@ -42,9 +42,9 @@ public class RevisionController {
                             schema = @Schema(implementation = Revision.class))),
             @ApiResponse(responseCode = "404", description = "Revisión no encontrada")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Revision> obtenerRevision(@PathVariable Long id) {
-        Optional<Revision> revision = revisionService.obtenerRevisionPorId(id);
+    @GetMapping("/{idRevision}") // Cambio aquí
+    public ResponseEntity<Revision> obtenerRevision(@PathVariable Long idRevision) { // Cambio aquí
+        Optional<Revision> revision = revisionService.obtenerRevisionPorId(idRevision);
         return revision.map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -67,10 +67,10 @@ public class RevisionController {
             @ApiResponse(responseCode = "204", description = "Revisión eliminada correctamente"),
             @ApiResponse(responseCode = "404", description = "Revisión no encontrada")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarRevision(@PathVariable Long id) {
-        if (revisionService.obtenerRevisionPorId(id).isPresent()) {
-            revisionService.eliminarRevision(id);
+    @DeleteMapping("/{idRevision}") // Cambio aquí
+    public ResponseEntity<Void> eliminarRevision(@PathVariable Long idRevision) { // Cambio aquí
+        if (revisionService.obtenerRevisionPorId(idRevision).isPresent()) {
+            revisionService.eliminarRevision(idRevision);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

@@ -42,9 +42,9 @@ public class ClienteController {
                             schema = @Schema(implementation = Cliente.class))),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obtenerCliente(@PathVariable Long id) {
-        Optional<Cliente> cliente = clienteService.obtenerClientePorId(id);
+    @GetMapping("/{idCliente}") // Cambio aquí
+    public ResponseEntity<Cliente> obtenerCliente(@PathVariable Long idCliente) { // Cambio aquí
+        Optional<Cliente> cliente = clienteService.obtenerClientePorId(idCliente);
         return cliente.map(ResponseEntity::ok)
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -67,10 +67,10 @@ public class ClienteController {
             @ApiResponse(responseCode = "204", description = "Cliente eliminado correctamente"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable Long id) {
-        if (clienteService.obtenerClientePorId(id).isPresent()) {
-            clienteService.eliminarCliente(id);
+    @DeleteMapping("/{idCliente}") // Cambio aquí
+    public ResponseEntity<Void> eliminarCliente(@PathVariable Long idCliente) { // Cambio aquí
+        if (clienteService.obtenerClientePorId(idCliente).isPresent()) {
+            clienteService.eliminarCliente(idCliente);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

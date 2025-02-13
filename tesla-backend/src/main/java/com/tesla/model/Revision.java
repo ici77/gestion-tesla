@@ -3,9 +3,7 @@ package com.tesla.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
-
 import io.swagger.v3.oas.annotations.media.Schema;
-
 
 @Data
 @Entity
@@ -15,11 +13,12 @@ public class Revision {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_revision") // Cambio aquí para reflejar la nueva nomenclatura
     @Schema(description = "Identificador único de la revisión", example = "1")
-    private Long id;
+    private Long idRevision;
 
     @ManyToOne
-    @JoinColumn(name = "coche_id", nullable = false)
+    @JoinColumn(name = "id_coche", nullable = false) // Cambio aquí para reflejar el nombre correcto
     @Schema(description = "Coche al que se le ha realizado la revisión")
     private Coche coche;
 
@@ -34,4 +33,8 @@ public class Revision {
 
     @Schema(description = "Cambio de frenos realizado", example = "false")
     private boolean cambioFrenos;
+
+    @Schema(description = "Observaciones de la revisión", example = "Cambio de filtro y aceite.")
+private String observaciones;
+
 }

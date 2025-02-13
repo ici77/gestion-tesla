@@ -3,9 +3,6 @@ package com.tesla.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-
-
 import java.util.List;
 
 @Data
@@ -16,8 +13,9 @@ public class Coche {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_coche") // Cambio aquí para reflejar la nueva nomenclatura
     @Schema(description = "Identificador único del coche", example = "1")
-    private Long id;
+    private Long idCoche;
 
     @Schema(description = "Matrícula del coche", example = "1234ABC")
     private String matricula;

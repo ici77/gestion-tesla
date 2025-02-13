@@ -18,16 +18,15 @@ public class VentaService {
         return ventaRepository.findAll();
     }
 
-    public Optional<Venta> obtenerVentaPorId(Long id) {
-        return ventaRepository.findById(id);
+    public Optional<Venta> obtenerVentaPorId(Long idVenta) { // Cambio aquí
+        return ventaRepository.findById(idVenta);
     }
 
     public Venta guardarVenta(Venta venta) {
         return ventaRepository.save(venta);
     }
 
-    public void eliminarVenta(Long id) {
-        ventaRepository.deleteById(id);
+    public void eliminarVenta(Long idVenta) { // Cambio aquí
+        ventaRepository.deleteById(idVenta);
     }
 }
-

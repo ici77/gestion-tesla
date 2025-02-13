@@ -13,8 +13,9 @@ public class Cliente {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cliente") // Cambio aquí para reflejar la nueva nomenclatura
     @Schema(description = "Identificador único del cliente", example = "1")
-    private Long id;
+    private Long idCliente;
 
     @Schema(description = "NIF del cliente", example = "12345678A")
     private String nif;

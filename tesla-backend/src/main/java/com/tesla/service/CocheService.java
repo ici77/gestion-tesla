@@ -18,16 +18,15 @@ public class CocheService {
         return cocheRepository.findAll();
     }
 
-    public Optional<Coche> obtenerCochePorId(Long id) {
-        return cocheRepository.findById(id);
+    public Optional<Coche> obtenerCochePorId(Long idCoche) { // Cambio aquí
+        return cocheRepository.findById(idCoche);
     }
 
     public Coche guardarCoche(Coche coche) {
         return cocheRepository.save(coche);
     }
 
-    public void eliminarCoche(Long id) {
-        cocheRepository.deleteById(id);
+    public void eliminarCoche(Long idCoche) { // Cambio aquí
+        cocheRepository.deleteById(idCoche);
     }
 }
-

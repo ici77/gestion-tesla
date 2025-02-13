@@ -42,9 +42,9 @@ public class VentaController {
                             schema = @Schema(implementation = Venta.class))),
             @ApiResponse(responseCode = "404", description = "Venta no encontrada")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Venta> obtenerVenta(@PathVariable Long id) {
-        Optional<Venta> venta = ventaService.obtenerVentaPorId(id);
+    @GetMapping("/{idVenta}") // Cambio aquí
+    public ResponseEntity<Venta> obtenerVenta(@PathVariable Long idVenta) { // Cambio aquí
+        Optional<Venta> venta = ventaService.obtenerVentaPorId(idVenta);
         return venta.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -67,10 +67,10 @@ public class VentaController {
             @ApiResponse(responseCode = "204", description = "Venta eliminada correctamente"),
             @ApiResponse(responseCode = "404", description = "Venta no encontrada")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarVenta(@PathVariable Long id) {
-        if (ventaService.obtenerVentaPorId(id).isPresent()) {
-            ventaService.eliminarVenta(id);
+    @DeleteMapping("/{idVenta}") // Cambio aquí
+    public ResponseEntity<Void> eliminarVenta(@PathVariable Long idVenta) { // Cambio aquí
+        if (ventaService.obtenerVentaPorId(idVenta).isPresent()) {
+            ventaService.eliminarVenta(idVenta);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

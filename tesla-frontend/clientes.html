@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script defer src="scripts/clientes.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Clientes</h1>
+        <a href="index.html">Volver al inicio</a>
+    </header>
+    <main>
+        <h2>Lista de Clientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Cliente</th>
+                    <th>NIF</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Ciudad</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="clientes-table"></tbody>
+        </table>
+        <button id="prevPage">Anterior</button>
+        <span id="pageNumber">1</span>
+        <button id="nextPage">Siguiente</button>
+    </main>
+</body>
+</html>

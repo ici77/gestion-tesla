@@ -18,16 +18,15 @@ public class RevisionService {
         return revisionRepository.findAll();
     }
 
-    public Optional<Revision> obtenerRevisionPorId(Long id) {
-        return revisionRepository.findById(id);
+    public Optional<Revision> obtenerRevisionPorId(Long idRevision) { // Cambio aquí
+        return revisionRepository.findById(idRevision);
     }
 
     public Revision guardarRevision(Revision revision) {
         return revisionRepository.save(revision);
     }
 
-    public void eliminarRevision(Long id) {
-        revisionRepository.deleteById(id);
+    public void eliminarRevision(Long idRevision) { // Cambio aquí
+        revisionRepository.deleteById(idRevision);
     }
 }
-

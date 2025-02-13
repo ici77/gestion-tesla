@@ -39,12 +39,12 @@ public class CocheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Coche encontrado",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Coche.class))),
+                            schema = @Schema(implementation = Coche.class)) ),
             @ApiResponse(responseCode = "404", description = "Coche no encontrado")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Coche> obtenerCoche(@PathVariable Long id) {
-        Optional<Coche> coche = cocheService.obtenerCochePorId(id);
+    @GetMapping("/{idCoche}") // Cambio aquí
+    public ResponseEntity<Coche> obtenerCoche(@PathVariable Long idCoche) { // Cambio aquí
+        Optional<Coche> coche = cocheService.obtenerCochePorId(idCoche);
         return coche.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -53,7 +53,7 @@ public class CocheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Coche creado correctamente",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Coche.class))),
+                            schema = @Schema(implementation = Coche.class)) ),
             @ApiResponse(responseCode = "400", description = "Solicitud incorrecta")
     })
     @PostMapping
@@ -67,10 +67,10 @@ public class CocheController {
             @ApiResponse(responseCode = "204", description = "Coche eliminado correctamente"),
             @ApiResponse(responseCode = "404", description = "Coche no encontrado")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCoche(@PathVariable Long id) {
-        if (cocheService.obtenerCochePorId(id).isPresent()) {
-            cocheService.eliminarCoche(id);
+    @DeleteMapping("/{idCoche}") // Cambio aquí
+    public ResponseEntity<Void> eliminarCoche(@PathVariable Long idCoche) { // Cambio aquí
+        if (cocheService.obtenerCochePorId(idCoche).isPresent()) {
+            cocheService.eliminarCoche(idCoche);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

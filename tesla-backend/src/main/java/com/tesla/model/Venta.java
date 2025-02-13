@@ -5,10 +5,6 @@ import lombok.Data;
 import java.time.LocalDate;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-
-
-
 @Data
 @Entity
 @Table(name = "ventas")
@@ -17,16 +13,17 @@ public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_venta") // Cambio aquí para reflejar la nueva nomenclatura
     @Schema(description = "Identificador único de la venta", example = "1")
-    private Long id;
+    private Long idVenta;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = false) // Cambio aquí para reflejar el nombre correcto
     @Schema(description = "Cliente que realizó la compra")
     private Cliente cliente;
 
     @OneToOne
-    @JoinColumn(name = "coche_id", nullable = false)
+    @JoinColumn(name = "id_coche", nullable = false) // Cambio aquí para reflejar el nombre correcto
     @Schema(description = "Coche vendido en la transacción")
     private Coche coche;
 
