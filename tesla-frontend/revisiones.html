@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Revisiones</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script defer src="scripts/revisiones.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Gestión de Revisiones</h1>
+        <a href="index.html">Volver al inicio</a>
+    </header>
+
+    <main class="container">
+        <!-- Formulario -->
+        <div class="form-container">
+            <h2>Agregar / Editar Revisión</h2>
+            <form id="revisionForm">
+                <input type="hidden" id="idRevision">
+
+                <div class="form-group">
+                    <label for="coche">Coche:</label>
+                    <select id="coche" required>
+                        <option value="" disabled selected>Seleccione un coche</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filtro">Cambio de Filtro:</label>
+                    <input type="checkbox" id="filtro">
+                </div>
+
+                <div class="form-group">
+                    <label for="aceite">Cambio de Aceite:</label>
+                    <input type="checkbox" id="aceite">
+                </div>
+
+                <div class="form-group">
+                    <label for="frenos">Cambio de Frenos:</label>
+                    <input type="checkbox" id="frenos">
+                </div>
+
+                <div class="form-group">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" placeholder="Escriba cualquier observación"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-add">Guardar Revisión</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Revisiones -->
+        <div class="table-container">
+            <h2>Lista de Revisiones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Revisión</th>
+                        <th>Fecha</th>
+                        <th>Coche</th>
+                        <th>Filtro</th>
+                        <th>Aceite</th>
+                        <th>Frenos</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="revisiones-table"></tbody>
+            </table>
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <button id="prevPageRevisiones">Anterior</button>
+                <span id="pageNumberRevisiones">1</span>
+                <button id="nextPageRevisiones">Siguiente</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.tesla.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,10 +34,12 @@ public class Coche {
     private Double precio;
 
     @OneToOne(mappedBy = "coche", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("coche") // Evita la recursión infinita en JSON
     @Schema(description = "Venta asociada al coche")
     private Venta venta;
 
     @OneToMany(mappedBy = "coche", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("coche") // Evita la recursión infinita en JSON
     @Schema(description = "Lista de revisiones asociadas al coche")
     private List<Revision> revisiones;
 }

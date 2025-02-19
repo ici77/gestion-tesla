@@ -7,8 +7,8 @@ body {
 }
 
 header {
-    background-color: #065f43;
-    color: white;
+    background-color: #c11212;
+    color: rgb(15, 1, 1);
     padding: 1rem;
 }
 
@@ -27,9 +27,90 @@ nav ul li a {
     text-decoration: none;
 }
 
+/* Contenedor General */
+.container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos para el Formulario */
+.form-container {
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    text-align: left;
+}
+
+.form-container h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+/* Botones */
+.btn {
+    padding: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.btn-add {
+    background-color: #28a745; /* Verde */
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+.btn-edit {
+    background-color: #007bff; /* Azul */
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Rojo */
+}
+
+.btn-delete:hover {
+    background-color: #bd2130;
+}
+
+/* Tabla */
+.table-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
 table {
     margin: auto;
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -40,6 +121,17 @@ th, td {
 }
 
 th {
-    background-color: #065f43;
-    color: white;
+    background-color: #a09494;
+    color: rgb(15, 1, 1);
+}
+
+/* Imagen */
+.imagen-pequena {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: white;
 }

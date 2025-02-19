@@ -1,5 +1,6 @@
 package com.tesla.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -19,11 +20,13 @@ public class Venta {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false) // Cambio aquí para reflejar el nombre correcto
+    @JsonIgnoreProperties("ventas") // Evita la recursión infinita
     @Schema(description = "Cliente que realizó la compra")
     private Cliente cliente;
 
     @OneToOne
     @JoinColumn(name = "id_coche", nullable = false) // Cambio aquí para reflejar el nombre correcto
+    @JsonIgnoreProperties("venta") // Evita la recursión infinita
     @Schema(description = "Coche vendido en la transacción")
     private Coche coche;
 

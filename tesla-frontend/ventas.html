@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script defer src="scripts/ventas.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Gestión de Ventas</h1>
+        <a href="index.html">Volver al inicio</a>
+    </header>
+
+    <main class="container">
+        <!-- Formulario -->
+        <div class="form-container">
+            <img src="imagenes/venta.png" alt="Imagen Tesla"class="imagen-pequena">
+            <h2>Asignar Coche a Cliente</h2>
+            <form id="ventaForm">
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" required></select>
+
+                <label for="coche">Coche:</label>
+                <select id="coche" required></select>
+
+                <button type="submit" class="btn btn-add">Registrar Venta</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Ventas -->
+        <div class="table-container">
+            <h2>Lista de Ventas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Venta</th>
+                        <th>Cliente</th>
+                        <th>Coche</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="ventas-table"></tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

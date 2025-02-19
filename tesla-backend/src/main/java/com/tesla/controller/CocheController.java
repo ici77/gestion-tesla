@@ -39,12 +39,12 @@ public class CocheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Coche encontrado",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Coche.class)) ),
+                            schema = @Schema(implementation = Coche.class))),
             @ApiResponse(responseCode = "404", description = "Coche no encontrado")
     })
-    @GetMapping("/{idCoche}") // Cambio aquí
-    public ResponseEntity<Coche> obtenerCoche(@PathVariable Long idCoche) { // Cambio aquí
-        Optional<Coche> coche = cocheService.obtenerCochePorId(idCoche);
+    @GetMapping("/{id}")
+    public ResponseEntity<Coche> obtenerCoche(@PathVariable Long id) {
+        Optional<Coche> coche = cocheService.obtenerCochePorId(id);
         return coche.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -53,7 +53,7 @@ public class CocheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Coche creado correctamente",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Coche.class)) ),
+                            schema = @Schema(implementation = Coche.class))),
             @ApiResponse(responseCode = "400", description = "Solicitud incorrecta")
     })
     @PostMapping
@@ -62,15 +62,41 @@ public class CocheController {
         return ResponseEntity.status(201).body(nuevoCoche);
     }
 
+    @Operation(summary = "Actualizar datos de un coche", description = "Modifica los datos de un coche existente, incluyendo su precio.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Coche actualizado correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Coche.class))),
+            @ApiResponse(responseCode = "404", description = "Coche no encontrado")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Coche> actualizarCoche(@PathVariable Long id, @RequestBody Coche cocheActualizado) {
+        Optional<Coche> cocheExistente = cocheService.obtenerCochePorId(id);
+        if (cocheExistente.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Obtener coche actual y actualizar datos
+        Coche coche = cocheExistente.get();
+        coche.setMatricula(cocheActualizado.getMatricula());
+        coche.setMarca(cocheActualizado.getMarca());
+        coche.setModelo(cocheActualizado.getModelo());
+        coche.setColor(cocheActualizado.getColor());
+        coche.setPrecio(cocheActualizado.getPrecio());
+
+        // Guardar coche actualizado
+        return ResponseEntity.ok(cocheService.guardarCoche(coche));
+    }
+
     @Operation(summary = "Eliminar un coche", description = "Elimina un coche por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Coche eliminado correctamente"),
             @ApiResponse(responseCode = "404", description = "Coche no encontrado")
     })
-    @DeleteMapping("/{idCoche}") // Cambio aquí
-    public ResponseEntity<Void> eliminarCoche(@PathVariable Long idCoche) { // Cambio aquí
-        if (cocheService.obtenerCochePorId(idCoche).isPresent()) {
-            cocheService.eliminarCoche(idCoche);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarCoche(@PathVariable Long id) {
+        if (cocheService.obtenerCochePorId(id).isPresent()) {
+            cocheService.eliminarCoche(id);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

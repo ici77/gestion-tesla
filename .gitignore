@@ -1,0 +1,4 @@
+node_modules/
+.vscode/
+target/
+tesla-frontend/node_modules/

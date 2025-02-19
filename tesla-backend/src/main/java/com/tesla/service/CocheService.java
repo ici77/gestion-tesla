@@ -21,6 +21,10 @@ public class CocheService {
     public Optional<Coche> obtenerCochePorId(Long idCoche) { // Cambio aquí
         return cocheRepository.findById(idCoche);
     }
+    public Coche actualizarCoche(Coche coche) {
+        return cocheRepository.save(coche);
+    }
+    
 
     public Coche guardarCoche(Coche coche) {
         return cocheRepository.save(coche);

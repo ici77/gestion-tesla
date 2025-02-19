@@ -42,11 +42,11 @@ public class RevisionController {
                             schema = @Schema(implementation = Revision.class))),
             @ApiResponse(responseCode = "404", description = "Revisión no encontrada")
     })
-    @GetMapping("/{idRevision}") // Cambio aquí
-    public ResponseEntity<Revision> obtenerRevision(@PathVariable Long idRevision) { // Cambio aquí
+    @GetMapping("/{idRevision}")
+    public ResponseEntity<Revision> obtenerRevision(@PathVariable Long idRevision) {
         Optional<Revision> revision = revisionService.obtenerRevisionPorId(idRevision);
         return revision.map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Registrar una nueva revisión", description = "Guarda una nueva revisión en la base de datos.")
@@ -62,13 +62,46 @@ public class RevisionController {
         return ResponseEntity.status(201).body(nuevaRevision);
     }
 
+    @Operation(summary = "Actualizar una revisión", description = "Modifica los datos de una revisión existente por su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Revisión actualizada correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Revision.class))),
+            @ApiResponse(responseCode = "404", description = "Revisión no encontrada")
+    })
+    @PutMapping("/{idRevision}")
+    public ResponseEntity<Revision> actualizarRevision(@PathVariable Long idRevision, @RequestBody Revision revisionActualizada) {
+        Optional<Revision> revisionExistente = revisionService.obtenerRevisionPorId(idRevision);
+    
+        if (revisionExistente.isPresent()) {
+            Revision revision = revisionExistente.get();
+            
+            revision.setCambioFiltro(revisionActualizada.isCambioFiltro());
+            revision.setCambioAceite(revisionActualizada.isCambioAceite());
+            revision.setCambioFrenos(revisionActualizada.isCambioFrenos());
+            revision.setObservaciones(revisionActualizada.getObservaciones());
+            revision.setFecha(revisionActualizada.getFecha());
+    
+            // Verificar si el coche se está enviando en la actualización
+            if (revisionActualizada.getCoche() != null && revisionActualizada.getCoche().getIdCoche() != null) {
+                revision.setCoche(revisionActualizada.getCoche());
+            }
+    
+            Revision actualizada = revisionService.guardarRevision(revision);
+            return ResponseEntity.ok(actualizada);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+
     @Operation(summary = "Eliminar una revisión", description = "Elimina una revisión por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Revisión eliminada correctamente"),
             @ApiResponse(responseCode = "404", description = "Revisión no encontrada")
     })
-    @DeleteMapping("/{idRevision}") // Cambio aquí
-    public ResponseEntity<Void> eliminarRevision(@PathVariable Long idRevision) { // Cambio aquí
+    @DeleteMapping("/{idRevision}")
+    public ResponseEntity<Void> eliminarRevision(@PathVariable Long idRevision) {
         if (revisionService.obtenerRevisionPorId(idRevision).isPresent()) {
             revisionService.eliminarRevision(idRevision);
             return ResponseEntity.noContent().build();

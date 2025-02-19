@@ -58,9 +58,19 @@ public class VentaController {
     })
     @PostMapping
     public ResponseEntity<Venta> guardarVenta(@RequestBody Venta venta) {
+        // Validar que el cliente y el coche existen antes de guardar la venta
+        if (venta.getCliente() == null || venta.getCliente().getIdCliente() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        if (venta.getCoche() == null || venta.getCoche().getIdCoche() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    
+        // Guardar la venta si todo está correcto
         Venta nuevaVenta = ventaService.guardarVenta(venta);
         return ResponseEntity.status(201).body(nuevaVenta);
     }
+    
 
     @Operation(summary = "Eliminar una venta", description = "Elimina una venta por su ID.")
     @ApiResponses(value = {

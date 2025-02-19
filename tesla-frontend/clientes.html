@@ -8,28 +8,60 @@
     <script defer src="scripts/clientes.js"></script>
 </head>
 <body>
+
     <header>
         <h1>Gestión de Clientes</h1>
         <a href="index.html">Volver al inicio</a>
     </header>
-    <main>
-        <h2>Lista de Clientes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID Cliente</th>
-                    <th>NIF</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Ciudad</th>
-                    <th>Teléfono</th>
-                </tr>
-            </thead>
-            <tbody id="clientes-table"></tbody>
-        </table>
-        <button id="prevPage">Anterior</button>
-        <span id="pageNumber">1</span>
-        <button id="nextPage">Siguiente</button>
+
+    <main class="container">
+        <!-- Formulario -->
+        <div class="form-container">
+            <img src="imagenes/cliente.png" alt="Imagen Tesla"class="imagen-pequena">
+            <h2>Agregar / Editar Cliente</h2>
+            <form id="clienteForm">
+                <input type="hidden" id="idCliente">
+                <label for="nif">NIF:</label>
+                <input type="text" id="nif" required>
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" required>
+
+                <label for="ciudad">Ciudad:</label>
+                <input type="text" id="ciudad" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" required>
+
+                <button type="submit" class="btn btn-add">Guardar Cliente</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Clientes -->
+        <div class="table-container">
+            <h2>Lista de Clientes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NIF</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Ciudad</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="clientes-table"></tbody>
+            </table>
+            <button id="prevPage">Anterior</button>
+            <span id="pageNumber">1</span>
+            <button id="nextPage">Siguiente</button>
+        </div>
     </main>
+
 </body>
 </html>

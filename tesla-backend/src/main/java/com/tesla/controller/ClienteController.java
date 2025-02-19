@@ -32,8 +32,9 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<Cliente>> listarClientes() {
         List<Cliente> clientes = clienteService.listarClientes();
-        return ResponseEntity.ok(clientes);
+        return ResponseEntity.ok(clientes); // Solo devolver la lista limpia
     }
+    
 
     @Operation(summary = "Obtener cliente por ID", description = "Devuelve los detalles de un cliente específico.")
     @ApiResponses(value = {
