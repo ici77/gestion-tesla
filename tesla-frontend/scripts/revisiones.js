@@ -5,6 +5,9 @@ let coches = [];
 let currentPageRevisiones = 1;
 const rowsPerPageRevisiones = 10;
 
+/**
+ * Carga los coches desde la API y los muestra en el select por matrícula.
+ */
 async function cargarCoches() {
     try {
         const response = await fetch(`${API_URL}/coches`);
@@ -13,20 +16,24 @@ async function cargarCoches() {
         coches = await response.json();
         console.log("Coches recibidos:", coches);
 
-        const cocheSelect = document.getElementById("coche");
-        cocheSelect.innerHTML = "<option value='' disabled selected>Seleccione un coche</option>";
+        const matriculaSelect = document.getElementById("matricula"); // Cambiado de "coche" a "matricula"
+        matriculaSelect.innerHTML = "<option value='' disabled selected>Seleccione un coche</option>";
 
         coches.forEach(coche => {
             let option = document.createElement("option");
-            option.value = coche.idCoche;
-            option.textContent = `${coche.marca} - ${coche.modelo}`;
-            cocheSelect.appendChild(option);
+            option.value = coche.idCoche;  // ID del coche como valor
+            option.textContent = coche.matricula;  // Mostrar la matrícula
+            matriculaSelect.appendChild(option);
         });
     } catch (error) {
         console.error("Error:", error);
     }
 }
 
+
+/**
+ * Obtiene todas las revisiones de la API y las muestra en la tabla.
+ */
 async function obtenerRevisiones() {
     try {
         const response = await fetch(`${API_URL}/revisiones`);
@@ -40,6 +47,9 @@ async function obtenerRevisiones() {
     }
 }
 
+/**
+ * Muestra las revisiones paginadas en la tabla.
+ */
 function mostrarPaginaRevisiones(page) {
     const tableBody = document.getElementById("revisiones-table");
     if (!tableBody) return;
@@ -52,7 +62,7 @@ function mostrarPaginaRevisiones(page) {
     paginatedItems.forEach(revision => {
         const idRevision = revision.idRevision;
         const fecha = revision.fecha || "Sin fecha";
-        const cocheInfo = revision.coche ? `${revision.coche.marca} - ${revision.coche.modelo}` : "Sin coche";
+        const cocheInfo = revision.coche ? `${revision.coche.matricula}` : "Sin coche";
 
         const filtro = revision.cambioFiltro ? "Sí" : "No";
         const aceite = revision.cambioAceite ? "Sí" : "No";
@@ -77,16 +87,21 @@ function mostrarPaginaRevisiones(page) {
     document.getElementById("pageNumberRevisiones").textContent = page.toString();
 }
 
+/**
+ * Guarda una nueva revisión o actualiza una existente.
+ */
 async function guardarRevision(event) {
     event.preventDefault();
 
     const idRevision = document.getElementById("idRevision").value;
-    const idCoche = document.getElementById("coche").value;
+    const idCoche = document.getElementById("matricula").value;  // CAMBIADO DE "coche" A "matricula"
     const cambioFiltro = document.getElementById("filtro").checked;
     const cambioAceite = document.getElementById("aceite").checked;
     const cambioFrenos = document.getElementById("frenos").checked;
     const observaciones = document.getElementById("observaciones").value;
-    const fecha = document.getElementById("fecha").value || null;
+    
+    const fechaInput = document.getElementById("fecha");
+    const fecha = fechaInput ? fechaInput.value : null;
 
     if (!idCoche) {
         alert("Debe seleccionar un coche.");
@@ -135,24 +150,34 @@ async function guardarRevision(event) {
     }
 }
 
-function editarRevision(id) {
-    const revision = revisiones.find(r => r.idRevision == id);
+/**
+ * Carga los datos de una revisión en el formulario para editarla.
+ */
+function editarRevision(idRevision) {
+    // Buscar la revisión en la lista global de revisiones
+    const revision = revisiones.find(r => r.idRevision === idRevision);
     if (!revision) {
-        console.error("Revisión no encontrada para edición:", id);
+        alert("Revisión no encontrada.");
         return;
     }
 
-    console.log("Editando revisión:", revision);
-
+    // Llenar el formulario con los datos de la revisión seleccionada
     document.getElementById("idRevision").value = revision.idRevision;
-    document.getElementById("coche").value = revision.coche ? revision.coche.idCoche : "";
+    document.getElementById("matricula").value = revision.coche ? revision.coche.idCoche : "";
+
+    document.getElementById("fecha").value = revision.fecha;
     document.getElementById("filtro").checked = revision.cambioFiltro;
     document.getElementById("aceite").checked = revision.cambioAceite;
     document.getElementById("frenos").checked = revision.cambioFrenos;
-    document.getElementById("observaciones").value = revision.observaciones || "";
-    document.getElementById("fecha").value = revision.fecha ? revision.fecha : "";
+    document.getElementById("observaciones").value = revision.observaciones;
+
+    // Desplazar la pantalla hacia el formulario para que el usuario lo vea
+    document.getElementById("revisionForm").scrollIntoView({ behavior: "smooth" });
 }
 
+/**
+ * Elimina una revisión seleccionada.
+ */
 async function eliminarRevision(id) {
     if (!confirm("¿Seguro que quieres eliminar esta revisión?")) return;
 
@@ -168,9 +193,11 @@ async function eliminarRevision(id) {
     }
 }
 
+// Cargar coches y revisiones cuando se cargue la página
 document.addEventListener("DOMContentLoaded", () => {
     cargarCoches();
     obtenerRevisiones();
 });
 
+// Asignar evento al formulario de revisión
 document.getElementById("revisionForm").addEventListener("submit", guardarRevision);

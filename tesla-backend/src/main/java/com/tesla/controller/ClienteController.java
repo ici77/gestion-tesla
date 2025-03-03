@@ -32,9 +32,8 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<Cliente>> listarClientes() {
         List<Cliente> clientes = clienteService.listarClientes();
-        return ResponseEntity.ok(clientes); // Solo devolver la lista limpia
+        return ResponseEntity.ok(clientes);
     }
-    
 
     @Operation(summary = "Obtener cliente por ID", description = "Devuelve los detalles de un cliente específico.")
     @ApiResponses(value = {
@@ -43,8 +42,8 @@ public class ClienteController {
                             schema = @Schema(implementation = Cliente.class))),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @GetMapping("/{idCliente}") // Cambio aquí
-    public ResponseEntity<Cliente> obtenerCliente(@PathVariable Long idCliente) { // Cambio aquí
+    @GetMapping("/{idCliente}")
+    public ResponseEntity<Cliente> obtenerCliente(@PathVariable Long idCliente) {
         Optional<Cliente> cliente = clienteService.obtenerClientePorId(idCliente);
         return cliente.map(ResponseEntity::ok)
                       .orElseGet(() -> ResponseEntity.notFound().build());
@@ -63,13 +62,39 @@ public class ClienteController {
         return ResponseEntity.status(201).body(nuevoCliente);
     }
 
+    @Operation(summary = "Actualizar un cliente", description = "Actualiza los datos de un cliente existente por su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente actualizado correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Cliente.class))),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+    })
+    @PutMapping("/{idCliente}")
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long idCliente, @RequestBody Cliente clienteActualizado) {
+        Optional<Cliente> clienteExistente = clienteService.obtenerClientePorId(idCliente);
+        
+        if (clienteExistente.isPresent()) {
+            Cliente cliente = clienteExistente.get();
+            cliente.setNombre(clienteActualizado.getNombre());
+            cliente.setDireccion(clienteActualizado.getDireccion());
+            cliente.setCiudad(clienteActualizado.getCiudad());
+            cliente.setTelefono(clienteActualizado.getTelefono());
+
+            Cliente clienteGuardado = clienteService.guardarCliente(cliente);
+            return ResponseEntity.ok(clienteGuardado);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @Operation(summary = "Eliminar un cliente", description = "Elimina un cliente por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Cliente eliminado correctamente"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @DeleteMapping("/{idCliente}") // Cambio aquí
-    public ResponseEntity<Void> eliminarCliente(@PathVariable Long idCliente) { // Cambio aquí
+    @DeleteMapping("/{idCliente}")
+    public ResponseEntity<Void> eliminarCliente(@PathVariable Long idCliente) {
         if (clienteService.obtenerClientePorId(idCliente).isPresent()) {
             clienteService.eliminarCliente(idCliente);
             return ResponseEntity.noContent().build();

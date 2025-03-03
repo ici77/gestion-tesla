@@ -23,12 +23,14 @@ public class Venta {
     @JsonIgnoreProperties("ventas") // Evita la recursión infinita
     @Schema(description = "Cliente que realizó la compra")
     private Cliente cliente;
+    //cada venta requiere un cliente; cada cliente puede tener muchas ventas. 
 
     @OneToOne
     @JoinColumn(name = "id_coche", nullable = false) // Cambio aquí para reflejar el nombre correcto
     @JsonIgnoreProperties("venta") // Evita la recursión infinita
     @Schema(description = "Coche vendido en la transacción")
     private Coche coche;
+    //un coche solo permite una venta y una venta sólo un coche
 
     @Schema(description = "Fecha de la venta", example = "2024-02-13")
     private LocalDate fechaVenta;

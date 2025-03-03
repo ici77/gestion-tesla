@@ -34,3 +34,6 @@ public class CocheService {
         cocheRepository.deleteById(idCoche);
     }
 }
+//Contiene la lógica de negocio y llama al repositorio.
+//se podría eliminar y llamar en el controlador directamente al repositorio
+// el servicio maneja las reglas de negocio por ejemplo limita eliminar un coche si tiene venta asociada

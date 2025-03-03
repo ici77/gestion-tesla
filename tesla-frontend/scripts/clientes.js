@@ -13,6 +13,7 @@ async function obtenerClientes() {
         clientes = await response.json();
         mostrarPagina(currentPage);
     } catch (error) {
+        alert("❌ Error al obtener clientes.");
         console.error("Error:", error);
     }
 }
@@ -66,58 +67,80 @@ document.getElementById("nextPage").addEventListener("click", () => {
 document.getElementById("clienteForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const idCliente = document.getElementById("idCliente").value;
-    const nif = document.getElementById("nif").value;
-    const nombre = document.getElementById("nombre").value;
-    const direccion = document.getElementById("direccion").value;
-    const ciudad = document.getElementById("ciudad").value;
-    const telefono = document.getElementById("telefono").value;
+    const idCliente = document.getElementById("idCliente").value.trim();
+    const nif = document.getElementById("nif").value.trim();
+    const nombre = document.getElementById("nombre").value.trim();
+    const direccion = document.getElementById("direccion").value.trim();
+    const ciudad = document.getElementById("ciudad").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+
+    if (!nif || !nombre || !direccion || !ciudad || !telefono) {
+        alert("⚠️ Todos los campos son obligatorios.");
+        return;
+    }
 
     const cliente = { nif, nombre, direccion, ciudad, telefono };
 
     try {
-        let respuesta;
+        let response;
         if (idCliente) {
-            // Editar cliente
-            respuesta = await fetch(`${API_URL}/clientes/${idCliente}`, {
+            response = await fetch(`${API_URL}/clientes/${idCliente}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(cliente),
             });
         } else {
-            // Agregar nuevo cliente
-            respuesta = await fetch(`${API_URL}/clientes`, {
+            response = await fetch(`${API_URL}/clientes`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(cliente),
             });
         }
 
-        if (!respuesta.ok) throw new Error("Error al guardar cliente");
+        if (!response.ok) {
+            let errorMessage = "❌ Error al guardar el cliente.";
+            
+            try {
+                const errorData = await response.json();
+                if (errorData.message && errorData.message.includes("NIF ya está registrado")) {
+                    errorMessage = "⚠️ Error: El NIF ya está registrado.";
+                }
+            } catch (jsonError) {
+                const errorText = await response.text();
+                if (errorText.includes("NIF ya está registrado")) {
+                    errorMessage = "⚠️ Error: El NIF ya está registrado.";
+                }
+            }
 
-        alert("Cliente guardado correctamente");
+            alert(errorMessage);
+            return;
+        }
+
+        alert("✅ Cliente guardado correctamente.");
         document.getElementById("clienteForm").reset();
         document.getElementById("idCliente").value = "";
         obtenerClientes();
     } catch (error) {
+        alert("❌ Error al conectar con el servidor.");
         console.error("Error:", error);
     }
 });
 
-// Eliminar cliente
+// Eliminar cliente con confirmación
 async function eliminarCliente(id) {
-    if (!confirm("¿Seguro que quieres eliminar este cliente?")) return;
+    if (!confirm("❗ ¿Seguro que quieres eliminar este cliente?")) return;
 
     try {
-        const respuesta = await fetch(`${API_URL}/clientes/${id}`, {
+        const response = await fetch(`${API_URL}/clientes/${id}`, {
             method: "DELETE",
         });
 
-        if (!respuesta.ok) throw new Error("Error al eliminar cliente");
+        if (!response.ok) throw new Error("Error al eliminar cliente");
 
-        alert("Cliente eliminado correctamente");
+        alert("✅ Cliente eliminado correctamente.");
         obtenerClientes();
     } catch (error) {
+        alert("❌ Error al eliminar el cliente.");
         console.error("Error:", error);
     }
 }

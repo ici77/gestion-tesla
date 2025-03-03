@@ -36,10 +36,11 @@ public class Coche {
     @OneToOne(mappedBy = "coche", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("coche") // Evita la recursión infinita en JSON
     @Schema(description = "Venta asociada al coche")
-    private Venta venta;
+    private Venta venta;// si borramos coche borramos todo lo asociado a coche
 
     @OneToMany(mappedBy = "coche", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("coche") // Evita la recursión infinita en JSON
     @Schema(description = "Lista de revisiones asociadas al coche")
     private List<Revision> revisiones;
+    //una revisión sólo permite un coche; un coche muchas revisiones
 }

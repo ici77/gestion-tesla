@@ -18,7 +18,7 @@ public class Revision {
     private Long idRevision;
 
     @ManyToOne
-    @JoinColumn(name = "id_coche", nullable = false) // Cambio aquí para reflejar el nombre correcto
+    @JoinColumn(name = "id_coche", nullable = false) 
     @Schema(description = "Coche al que se le ha realizado la revisión")
     private Coche coche;
 

@@ -21,13 +21,21 @@
             <form id="revisionForm">
                 <input type="hidden" id="idRevision">
 
+                <!-- Selector de Matrícula -->
                 <div class="form-group">
-                    <label for="coche">Coche:</label>
-                    <select id="coche" required>
+                    <label for="matricula">Matrícula del Coche:</label>
+                    <select id="matricula" required>
                         <option value="" disabled selected>Seleccione un coche</option>
                     </select>
                 </div>
-
+                
+                <!-- Campo de Fecha -->
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha">
+                </div>
+                
+                <!-- Opciones de Cambio -->
                 <div class="form-group">
                     <label for="filtro">Cambio de Filtro:</label>
                     <input type="checkbox" id="filtro">
@@ -43,11 +51,13 @@
                     <input type="checkbox" id="frenos">
                 </div>
 
+                <!-- Campo de Observaciones -->
                 <div class="form-group">
                     <label for="observaciones">Observaciones:</label>
                     <textarea id="observaciones" placeholder="Escriba cualquier observación"></textarea>
                 </div>
 
+                <!-- Botón para guardar la revisión -->
                 <button type="submit" class="btn btn-add">Guardar Revisión</button>
             </form>
         </div>
@@ -60,7 +70,7 @@
                     <tr>
                         <th>ID Revisión</th>
                         <th>Fecha</th>
-                        <th>Coche</th>
+                        <th>Matrícula</th>
                         <th>Filtro</th>
                         <th>Aceite</th>
                         <th>Frenos</th>
